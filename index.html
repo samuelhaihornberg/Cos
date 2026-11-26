@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>hellow world — co & cos</title>
+	<style>
+		* { box-sizing: border-box; margin: 0; padding: 0; }
+		body {
+			min-height: 100vh;
+			display: grid;
+			place-items: center;
+			background: radial-gradient(circle at 20% 20%, #1e1b4b 0%, #090d16 55%, #17092b 100%);
+			color: #ffffff;
+			font-family: monospace;
+			overflow: hidden;
+			transition: background 0.35s ease;
+		}
+		body.actif {
+			background: radial-gradient(circle at 80% 25%, #3b0764 0%, #0c192e 55%, #06283d 100%);
+		}
+		.cos-box {
+			position: relative;
+			z-index: 2;
+			width: min(92vw, 760px);
+			padding: 36px 26px;
+			border-radius: 18px;
+			background: linear-gradient(135deg, rgba(17, 24, 39, 0.92), rgba(30, 27, 75, 0.88));
+			border: 2px solid #38bdf8;
+			box-shadow: 0 0 28px rgba(56, 189, 248, 0.35), 0 0 56px rgba(244, 114, 182, 0.2);
+			text-align: center;
+			transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+		}
+		.cos-box.actif {
+			transform: translateY(-3px) scale(1.015);
+			border-color: #facc15;
+			box-shadow: 0 0 36px rgba(250, 204, 21, 0.45), 0 0 70px rgba(74, 222, 128, 0.3);
+		}
+		.cos-title {
+			letter-spacing: 3px;
+			font-size: clamp(30px, 6vw, 56px);
+			font-weight: 800;
+			background: linear-gradient(90deg, #38bdf8, #f472b6, #facc15, #4ade80, #c084fc, #38bdf8);
+			background-size: 260% auto;
+			-webkit-background-clip: text;
+			background-clip: text;
+			color: transparent;
+			filter: drop-shadow(0 0 14px rgba(244, 114, 182, 0.45));
+			animation: neonShift 5s linear infinite;
+			transition: transform 0.2s ease, filter 0.2s ease;
+		}
+		.cos-title.actif {
+			transform: scale(1.06);
+			filter: drop-shadow(0 0 22px rgba(250, 204, 21, 0.85));
+		}
+		@keyframes neonShift {
+			0% { background-position: 0% 50%; }
+			100% { background-position: 260% 50%; }
+		}
+		.cos-sub {
+			margin-top: 12px;
+			color: #7dd3fc;
+			font-size: 14px;
+			letter-spacing: 1px;
+		}
+		.cos-sub.actif {
+			color: #fde047;
+		}
+		.cos-btn {
+			margin-top: 24px;
+			padding: 12px 24px;
+			border-radius: 10px;
+			border: none;
+			background: linear-gradient(90deg, #ec4899, #f97316, #facc15, #22c55e, #06b6d4);
+			background-size: 220% auto;
+			color: #090d16;
+			font-family: inherit;
+			font-weight: 800;
+			font-size: 14px;
+			letter-spacing: 1px;
+			cursor: pointer;
+			box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
+			transition: transform 0.12s ease, box-shadow 0.2s ease;
+		}
+		.cos-btn:hover {
+			transform: scale(1.04);
+			box-shadow: 0 0 28px rgba(6, 182, 212, 0.75);
+		}
+		.cos-btn:active {
+			transform: scale(0.95);
+		}
+		#fxCanvas {
+			position: fixed;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+			z-index: 1;
+		}
+	</style>
+</head>
+<body data-cos="BODY1">
+	<!-- Bibliothèque : règle de la règle uniquement (co = connexion, cos = connexions) -->
+
+	<canvas id="fxCanvas" data-cos="FX1"></canvas>
+
+	<div id="app" class="cos-box" data-cos="BOX1">
+		<h1 id="titre" class="cos-title" data-cos="H1">hellow world</h1>
+		<p id="sousTitre" class="cos-sub" data-cos="P1">structure lumineuse connectée</p>
+		<button id="actionBtn" class="cos-btn" data-cos="BTN1">Déclencher</button>
+	</div>
+
+	<script type="text/cos">
+		<cos>
+			<co>BTN1 ↔️ BOX1</co>
+			<co>BTN1 ↔️ H1</co>
+			<co>BTN1 ↔️ P1</co>
+			<co>BTN1 ↔️ FX1</co>
+			<co>BTN1 ↔️ AUDIO1</co>
+			<co>H1 ↔️ P1</co>
+			<co>BOX1 ↔️ BODY1</co>
+		</cos>
+	</script>
+
+	<script>
+		const map = {};
+		document.querySelectorAll("[data-cos]").forEach(el => map[el.dataset.cos] = el);
+
+		const canvas = map.FX1;
+		const ctx = canvas.getContext("2d");
+		const pts = [];
+		let audioCtx = null;
+
+		const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+		window.addEventListener("resize", resize);
+		resize();
+
+		function lancerFeuxEtEtincelles(x, y) {
+			const cols = ["#ff2a85", "#00f5d4", "#fee440", "#9b5de5", "#00bbf9", "#4ade80", "#fb7185"];
+			for (let i = 0; i < 54; i++) {
+				const a = (Math.PI * 2 * i) / 54;
+				const v = 2 + Math.random() * 5.2;
+				pts.push({
+					x, y,
+					vx: Math.cos(a) * v,
+					vy: Math.sin(a) * v,
+					life: 1,
+					c: cols[i % cols.length],
+					etincelle: i % 2 === 0
+				});
+			}
+		}
+
+		function jouerAudioRetro() {
+			audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+			const t = audioCtx.currentTime;
+			const osc = audioCtx.createOscillator();
+			const gain = audioCtx.createGain();
+			osc.type = "square";
+			osc.frequency.setValueAtTime(340, t);
+			osc.frequency.exponentialRampToValueAtTime(920, t + 0.16);
+			gain.gain.setValueAtTime(0.07, t);
+			gain.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+			osc.connect(gain);
+			gain.connect(audioCtx.destination);
+			osc.start(t);
+			osc.stop(t + 0.18);
+		}
+
+		(function loop() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			for (let i = pts.length - 1; i >= 0; i--) {
+				const p = pts[i];
+				p.x += p.vx;
+				p.y += p.vy;
+				p.vy += 0.06;
+				p.life -= 0.022;
+				if (p.life <= 0) { pts.splice(i, 1); continue; }
+				ctx.globalAlpha = Math.max(0, p.life);
+				ctx.fillStyle = p.c;
+				ctx.fillRect(p.x, p.y, p.etincelle ? 4.5 : 2.5, p.etincelle ? 4.5 : 2.5);
+			}
+			ctx.globalAlpha = 1;
+			requestAnimationFrame(loop);
+		})();
+
+		const liens = {};
+		document.querySelectorAll('script[type="text/cos"]').forEach(bloc => {
+			bloc.textContent.replace(/<co>(.*?)<\/co>/g, (_, pair) => {
+				const [a, b] = pair.split("↔️").map(s => s.trim());
+				if (map[a]) (liens[a] ||= []).push(b);
+			});
+		});
+
+		Object.entries(liens).forEach(([src, cibles]) => {
+			map[src].addEventListener("click", (e) => {
+				const rect = map[src].getBoundingClientRect();
+				const x = e.clientX || rect.left + rect.width / 2;
+				const y = e.clientY || rect.top + rect.height / 2;
+
+				cibles.forEach(c => {
+					if (c === "FX1") lancerFeuxEtEtincelles(x, y);
+					else if (c === "AUDIO1") jouerAudioRetro();
+					else if (map[c]) map[c].classList.toggle("actif");
+				});
+
+				if (map.P1) {
+					map.P1.textContent = map.H1.classList.contains("actif") ? "hellow world actif" : "structure lumineuse connectée";
+				}
+			});
+		});
+	</script>
+</body>
+</html>
