@@ -4,241 +4,131 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>hellow world — co & cos</title>
-	<style data-cos="STYLE1">
+	<style>
 		:root {
-			--bg-main: radial-gradient(circle at 20% 20%, #1e1b4b 0%, #090d16 55%, #17092b 100%);
-			--box-border: #38bdf8;
-			--box-glow: 0 0 28px rgba(56, 189, 248, 0.35), 0 0 56px rgba(244, 114, 182, 0.2);
-			--title-scale: 1;
-			--sub-color: #7dd3fc;
+			--bg: radial-gradient(circle at 20% 20%, #1e1b4b, #090d16 60%, #17092b);
+			--bd: #38bdf8;
+			--sc: 1;
+			--sub: #7dd3fc;
 		}
 		* { box-sizing: border-box; margin: 0; padding: 0; }
 		body {
 			min-height: 100vh;
 			display: grid;
 			place-items: center;
-			background: var(--bg-main);
-			color: #ffffff;
+			background: var(--bg);
+			color: #fff;
 			font-family: monospace;
 			overflow: hidden;
-			transition: background 0.35s ease;
 		}
-		.cos-box {
+		.box {
 			position: relative;
 			z-index: 2;
-			width: min(92vw, 760px);
-			padding: 36px 26px;
-			border-radius: 18px;
-			background: linear-gradient(135deg, rgba(17, 24, 39, 0.92), rgba(30, 27, 75, 0.88));
-			border: 2px solid var(--box-border);
-			box-shadow: var(--box-glow);
+			width: min(92vw, 720px);
+			padding: 32px 24px;
+			border-radius: 16px;
+			background: rgba(17, 24, 39, 0.9);
+			border: 2px solid var(--bd);
 			text-align: center;
-			transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 		}
-		.cos-title {
+		h1 {
+			font-size: clamp(28px, 6vw, 52px);
 			letter-spacing: 3px;
-			font-size: clamp(30px, 6vw, 56px);
-			font-weight: 800;
-			background: linear-gradient(90deg, #38bdf8, #f472b6, #facc15, #4ade80, #c084fc, #38bdf8);
-			background-size: 260% auto;
+			background: linear-gradient(90deg, #38bdf8, #f472b6, #facc15, #4ade80, #c084fc);
 			-webkit-background-clip: text;
 			background-clip: text;
 			color: transparent;
-			filter: drop-shadow(0 0 14px rgba(244, 114, 182, 0.45));
-			transform: scale(var(--title-scale));
-			animation: neonShift 5s linear infinite;
-			transition: transform 0.2s ease, filter 0.2s ease;
+			transform: scale(var(--sc));
+			transition: transform 0.2s ease;
 		}
-		@keyframes neonShift {
-			0% { background-position: 0% 50%; }
-			100% { background-position: 260% 50%; }
-		}
-		.cos-sub {
-			margin-top: 12px;
-			color: var(--sub-color);
-			font-size: 14px;
-			letter-spacing: 1px;
-			transition: color 0.2s ease;
-		}
-		.cos-btn {
-			margin-top: 24px;
-			padding: 12px 24px;
-			border-radius: 10px;
-			border: none;
-			background: linear-gradient(90deg, #ec4899, #f97316, #facc15, #22c55e, #06b6d4);
-			background-size: 220% auto;
+		p { margin-top: 10px; color: var(--sub); font-size: 13px; }
+		button {
+			margin-top: 20px;
+			padding: 10px 20px;
+			border: 0;
+			border-radius: 8px;
+			background: linear-gradient(90deg, #ec4899, #facc15, #06b6d4);
 			color: #090d16;
 			font-family: inherit;
 			font-weight: 800;
-			font-size: 14px;
-			letter-spacing: 1px;
 			cursor: pointer;
-			box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
-			transition: transform 0.12s ease, box-shadow 0.2s ease;
 		}
-		.cos-btn:hover {
-			transform: scale(1.04);
-			box-shadow: 0 0 28px rgba(6, 182, 212, 0.75);
-		}
-		.cos-btn:active {
-			transform: scale(0.95);
-		}
-		#fxCanvas {
-			position: fixed;
-			inset: 0;
-			width: 100%;
-			height: 100%;
-			pointer-events: none;
-			z-index: 1;
-		}
+		canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
 	</style>
 </head>
-<body data-cos="BODY1">
+<body data-cos=" BODY1 ">
 	<!-- Bibliothèque : règle de la règle uniquement (co = connexion, cos = connexions) -->
-
-	<canvas id="fxCanvas" data-cos="FX1"></canvas>
-
-	<div id="app" class="cos-box" data-cos="BOX1">
-		<h1 id="titre" class="cos-title" data-cos="H1">hellow world</h1>
-		<p id="sousTitre" class="cos-sub" data-cos="P1">HTML ↔️ CSS ↔️ JS connectés</p>
-		<button id="actionBtn" class="cos-btn" data-cos="BTN1">Déclencher</button>
+	<canvas id="fx" data-cos=" FX1 "></canvas>
+	<div class="box" data-cos=" BOX1 ">
+		<h1 data-cos=" H1 ">hellow world</h1>
+		<p data-cos=" P1 ">HTML ↔️ CSS ↔️ JS</p>
+		<button id="btn" data-cos=" BTN1 ">Déclencher</button>
 	</div>
 
-	<script type="text/cos">
-		<cos>
-			<!-- HTML -> JS -->
-			<co>BTN1 ↔️ JS_THEME1</co>
-			<co>BTN1 ↔️ JS_FX1</co>
-			<co>BTN1 ↔️ JS_AUDIO1</co>
-
-			<!-- JS -> CSS -->
-			<co>JS_THEME1 ↔️ CSS1</co>
-			<co>JS_THEME1 ↔️ CSS2</co>
-			<co>JS_THEME1 ↔️ CSS3</co>
-			<co>JS_THEME1 ↔️ CSS4</co>
-
-			<!-- CSS -> HTML -->
-			<co>CSS1 ↔️ BODY1</co>
-			<co>CSS2 ↔️ BOX1</co>
-			<co>CSS3 ↔️ H1</co>
-			<co>CSS4 ↔️ P1</co>
-
-			<!-- HTML <-> HTML & FX -->
-			<co>JS_FX1 ↔️ FX1</co>
-			<co>H1 ↔️ P1</co>
-		</cos>
-	</script>
+	<cos>
+		<co> BTN1 ↔️ JS1 </co>
+		<co> BTN1 ↔️ FX1 </co>
+		<co> BTN1 ↔️ AU1 </co>
+		<co> JS1 ↔️ C1 </co>
+		<co> C1 ↔️ BODY1 </co>
+		<co> C1 ↔️ BOX1 </co>
+		<co> C1 ↔️ H1 </co>
+		<co> C1 ↔️ P1 </co>
+	</cos>
 
 	<script>
-		const root = document.documentElement;
-		const map = {};
-		document.querySelectorAll("[data-cos]").forEach(el => map[el.dataset.cos] = el);
-
-		const canvas = map.FX1;
-		const ctx = canvas.getContext("2d");
-		const pts = [];
-		let audioCtx = null;
-		let actif = false;
-
-		const cssVars = {
-			CSS1: () => root.style.setProperty("--bg-main", actif
-				? "radial-gradient(circle at 80% 25%, #3b0764 0%, #0c192e 55%, #06283d 100%)"
-				: "radial-gradient(circle at 20% 20%, #1e1b4b 0%, #090d16 55%, #17092b 100%)"),
-			CSS2: () => {
-				root.style.setProperty("--box-border", actif ? "#facc15" : "#38bdf8");
-				root.style.setProperty("--box-glow", actif
-					? "0 0 36px rgba(250, 204, 21, 0.45), 0 0 70px rgba(74, 222, 128, 0.3)"
-					: "0 0 28px rgba(56, 189, 248, 0.35), 0 0 56px rgba(244, 114, 182, 0.2)");
+		const r = document.documentElement, m = {}, fx = document.getElementById("fx"), ctx = fx.getContext("2d"), pts = [];
+		let on = false, ac;
+		document.querySelectorAll("[data-cos]").forEach(el => m[el.dataset.cos.trim()] = el);
+		const liens = {};
+		document.querySelectorAll("cos co").forEach(co => {
+			const [a, b] = co.textContent.split("↔️").map(s => s.trim());
+			(liens[a] ||= []).push(b);
+		});
+		const resize = () => { fx.width = innerWidth; fx.height = innerHeight; };
+		addEventListener("resize", resize); resize();
+		const act = {
+			JS1: () => { on = !on; },
+			C1: () => {
+				r.style.setProperty("--bg", on ? "radial-gradient(circle at 80% 25%, #3b0764, #0c192e 60%, #06283d)" : "radial-gradient(circle at 20% 20%, #1e1b4b, #090d16 60%, #17092b)");
+				r.style.setProperty("--bd", on ? "#facc15" : "#38bdf8");
+				r.style.setProperty("--sc", on ? "1.06" : "1");
+				r.style.setProperty("--sub", on ? "#fde047" : "#7dd3fc");
+				if (m.P1) m.P1.textContent = on ? "hellow world actif" : "HTML ↔️ CSS ↔️ JS";
 			},
-			CSS3: () => root.style.setProperty("--title-scale", actif ? "1.06" : "1"),
-			CSS4: () => root.style.setProperty("--sub-color", actif ? "#fde047" : "#7dd3fc")
-		};
-
-		const jsModules = {
-			JS_THEME1: () => { actif = !actif; },
-			JS_FX1: ({ x, y }) => {
-				const cols = ["#ff2a85", "#00f5d4", "#fee440", "#9b5de5", "#00bbf9", "#4ade80", "#fb7185"];
-				for (let i = 0; i < 54; i++) {
-					const a = (Math.PI * 2 * i) / 54;
-					const v = 2 + Math.random() * 5.2;
-					pts.push({
-						x, y,
-						vx: Math.cos(a) * v,
-						vy: Math.sin(a) * v,
-						life: 1,
-						c: cols[i % cols.length],
-						etincelle: i % 2 === 0
-					});
+			FX1: ({ x, y }) => {
+				const cols = ["#ff2a85", "#00f5d4", "#fee440", "#9b5de5", "#4ade80"];
+				for (let i = 0; i < 40; i++) {
+					const a = (Math.PI * 2 * i) / 40, v = 2 + Math.random() * 4.5;
+					pts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, c: cols[i % 5] });
 				}
 			},
-			JS_AUDIO1: () => {
-				audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-				const t = audioCtx.currentTime;
-				const osc = audioCtx.createOscillator();
-				const gain = audioCtx.createGain();
-				osc.type = "square";
-				osc.frequency.setValueAtTime(340, t);
-				osc.frequency.exponentialRampToValueAtTime(920, t + 0.16);
-				gain.gain.setValueAtTime(0.07, t);
-				gain.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
-				osc.connect(gain);
-				gain.connect(audioCtx.destination);
-				osc.start(t);
-				osc.stop(t + 0.18);
+			AU1: () => {
+				ac = ac || new (AudioContext || webkitAudioContext)();
+				const t = ac.currentTime, o = ac.createOscillator(), g = ac.createGain();
+				o.type = "square";
+				o.frequency.setValueAtTime(340, t);
+				o.frequency.exponentialRampToValueAtTime(920, t + 0.15);
+				g.gain.setValueAtTime(0.06, t);
+				g.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
+				o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t + 0.16);
 			}
 		};
-
-		const liens = {};
-		document.querySelectorAll('script[type="text/cos"]').forEach(bloc => {
-			bloc.textContent.replace(/<co>(.*?)<\/co>/g, (_, pair) => {
-				const [a, b] = pair.split("↔️").map(s => s.trim());
-				(liens[a] ||= []).push(b);
-			});
-		});
-
-		function propager(noeud, payload, vus = new Set()) {
-			if (vus.has(noeud)) return;
-			vus.add(noeud);
-
-			if (jsModules[noeud]) jsModules[noeud](payload);
-			if (cssVars[noeud]) cssVars[noeud]();
-			if (noeud === "P1" && map.P1) {
-				map.P1.textContent = actif ? "hellow world actif — réseau synchronisé" : "HTML ↔️ CSS ↔️ JS connectés";
-			}
-
-			(liens[noeud] || []).forEach(suivant => propager(suivant, payload, vus));
-		}
-
-		const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-		window.addEventListener("resize", resize);
-		resize();
-
+		const run = (k, p, seen = new Set()) => {
+			if (seen.has(k)) return; seen.add(k);
+			if (act[k]) act[k](p);
+			(liens[k] || []).forEach(nxt => run(nxt, p, seen));
+		};
 		(function loop() {
-			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			ctx.clearRect(0, 0, fx.width, fx.height);
 			for (let i = pts.length - 1; i >= 0; i--) {
-				const p = pts[i];
-				p.x += p.vx;
-				p.y += p.vy;
-				p.vy += 0.06;
-				p.life -= 0.022;
+				const p = pts[i]; p.x += p.vx; p.y += p.vy; p.vy += 0.06; p.life -= 0.025;
 				if (p.life <= 0) { pts.splice(i, 1); continue; }
-				ctx.globalAlpha = Math.max(0, p.life);
-				ctx.fillStyle = p.c;
-				ctx.fillRect(p.x, p.y, p.etincelle ? 4.5 : 2.5, p.etincelle ? 4.5 : 2.5);
+				ctx.globalAlpha = p.life; ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, 3.5, 3.5);
 			}
-			ctx.globalAlpha = 1;
-			requestAnimationFrame(loop);
+			ctx.globalAlpha = 1; requestAnimationFrame(loop);
 		})();
-
-		if (map.BTN1) {
-			map.BTN1.addEventListener("click", (e) => {
-				const rect = map.BTN1.getBoundingClientRect();
-				propager("BTN1", {
-					x: e.clientX || rect.left + rect.width / 2,
-					y: e.clientY || rect.top + rect.height / 2
-				});
-			});
-		}
+		m.BTN1.addEventListener("click", e => run("BTN1", { x: e.clientX || innerWidth / 2, y: e.clientY || innerHeight / 2 }));
 	</script>
 </body>
 </html>
