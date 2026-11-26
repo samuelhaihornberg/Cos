@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>hellow world — co & cos</title>
+	<style>
+		* { box-sizing: border-box; margin: 0; padding: 0; }
+		body {
+			min-height: 100vh;
+			display: grid;
+			place-items: center;
+			background: #0d1017;
+			color: #f9fafb;
+			font-family: monospace;
+			transition: background 0.3s ease;
+		}
+		.cos-box {
+			width: min(92vw, 720px);
+			padding: 28px 22px;
+			border-radius: 12px;
+			background: #111827;
+			border: 1px solid #1f2937;
+			text-align: center;
+			transition: border-color 0.25s ease, box-shadow 0.25s ease;
+		}
+		.cos-box.actif {
+			border-color: #64748b;
+			box-shadow: 0 0 24px rgba(148, 163, 184, 0.2);
+		}
+		.cos-title {
+			color: #9ca3af;
+			letter-spacing: 2px;
+			font-size: clamp(26px, 5vw, 46px);
+			transition: color 0.2s ease, transform 0.2s ease;
+		}
+		.cos-title.actif {
+			color: #ffffff;
+			transform: scale(1.04);
+		}
+		.cos-sub {
+			margin-top: 10px;
+			color: #64748b;
+			font-size: 13px;
+		}
+		.cos-sub.actif {
+			color: #38bdf8;
+		}
+		.cos-btn {
+			margin-top: 20px;
+			padding: 10px 18px;
+			border-radius: 8px;
+			border: 1px solid #374151;
+			background: #1f2937;
+			color: #f9fafb;
+			font-family: inherit;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body data-cos="BODY1">
+	<!-- Bibliothèque : règle de la règle uniquement (co = connexion, cos = connexions) -->
+
+	<div id="app" class="cos-box" data-cos="BOX1">
+		<h1 id="titre" class="cos-title" data-cos="H1">hellow world</h1>
+		<p id="sousTitre" class="cos-sub" data-cos="P1">structure connectée</p>
+		<button id="actionBtn" class="cos-btn" data-cos="BTN1">Déclencher</button>
+	</div>
+
+	<script type="text/cos">
+		<cos>
+			<co>BTN1 ↔️ BOX1</co>
+			<co>BTN1 ↔️ H1</co>
+			<co>BTN1 ↔️ P1</co>
+			<co>H1 ↔️ P1</co>
+			<co>BOX1 ↔️ BODY1</co>
+		</cos>
+	</script>
+
+	<script>
+		const map = {};
+		document.querySelectorAll("[data-cos]").forEach(el => map[el.dataset.cos] = el);
+
+		const liens = {};
+		document.querySelectorAll('script[type="text/cos"]').forEach(bloc => {
+			bloc.textContent.replace(/<co>(.*?)<\/co>/g, (_, pair) => {
+				const [a, b] = pair.split("↔️").map(s => s.trim());
+				if (map[a] && map[b]) (liens[a] ||= []).push(map[b]);
+			});
+		});
+
+		Object.entries(liens).forEach(([src, cibles]) => {
+			map[src].addEventListener("click", () => {
+				cibles.forEach(c => c.classList.toggle("actif"));
+				if (map.P1) map.P1.textContent = map.H1.classList.contains("actif") ? "hellow world actif" : "structure connectée";
+			});
+		});
+	</script>
+</body>
+</html>
